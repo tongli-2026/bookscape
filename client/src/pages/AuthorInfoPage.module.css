@@ -1,0 +1,81 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+  gap: 30px;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.contentRow {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.authorTableContainer {
+  flex: 1;
+  min-width: 65%;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.similarAuthorsContainer {
+  flex: 0 0 30%;
+  max-width: 300px;
+  background-color: #f9f9ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.authorBooks {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font: 700 40px Cairo, sans-serif;
+  margin-bottom: 32px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.booksGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.bookCard {
+  width: 150px;
+  text-align: center;
+}
+
+.bookImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #444;
+}

@@ -1,0 +1,42 @@
+.footer {
+    width: 100%;
+    padding: 27px 0;
+    background: #fff;
+  }
+  
+  .divider {
+    background: #f0f0f0;
+    height: 3px;
+    width: 100%;
+  }
+  
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1620px;
+    margin: 27px auto 0;
+    padding: 0 20px;
+    color: #464b70;
+    font: 16px Cairo, sans-serif;
+  }
+  
+  .copyright {
+    font-weight: 600;
+  }
+  
+  .credits {
+    text-align: right;
+  }
+  
+  @media (max-width: 991px) {
+    .content {
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+  
+    .credits {
+      text-align: center;
+    }
+  }

@@ -1,0 +1,100 @@
+.similarAuthorsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .sectionTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .authorsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .authorLink {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit text color from the parent */
+  }
+  
+  .authorCard {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .authorCard:hover {
+    background-color: #f0f0f0;
+    transition: background-color 0.3s;
+  }
+  
+  .authorImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .authorDetails {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .authorName {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .authorGenres {
+    font-size: 0.9rem;
+    color: #6c5dd3;
+    text-transform: capitalize;
+  }
+  
+  .authorRating {
+    font-size: 0.9rem;
+    color: #ff754c;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 5px;
+  }
+
+  .ratingWrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ratingIcon {
+    color: #ff754c;
+  }
+  
+  .viewMoreButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #6c5dd3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .viewMoreButton:hover {
+    background-color: #584bc2;
+  }
+  

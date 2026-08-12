@@ -1,0 +1,225 @@
+.page {
+    background: #fff;
+    min-height: 100vh;
+  }
+  
+  .mainContent {
+    width: 87.5%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  .sectionTitle {
+    color: #11142d;
+    font: 700 50px Cairo, sans-serif;
+    margin-bottom: 32px;
+  }
+
+  .sectionTitle2 {
+    color: #11142d;
+    text-align: center;
+    font: 700 50px Cairo, sans-serif;
+    margin-bottom: 32px;
+  }
+  
+  .categoryTabs {
+    display: flex;
+    gap: 100px;
+    margin-bottom: 20px;
+    margin-top: 32px;
+  }
+  
+  .tabButton {
+    color: #aaa;
+    font: 400 20px Cairo, sans-serif;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+  
+  .tabButton.active {
+    color: #11142d;
+    font-weight: 700;
+  }
+  
+  .tabContent {
+    margin-top: 20px;
+  }
+
+  .divider {
+    background: var(--Grey-03, #f0f0f0);
+    min-height: 3px;
+    margin-top: 0px;
+    width: 100%;
+  }
+
+  .recommendation {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .recommendImage {
+    max-width: 200px;
+    border-radius: 10px;
+  }
+  
+  .recommendTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .recommendRating {
+    color: #6c5dd3;
+    font-size: 16px;
+  }
+  
+  .recommendDescription {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .booksGrid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: clamp(16px, 1.8vw, 38px);
+    margin-top: 40px;
+  }
+
+  .bookLink {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit color from parent */
+  }
+  
+  .bookLink:hover {
+    transform: scale(1.02); /* Optional: Add hover effect */
+  }  
+  
+  .sectionDescription {
+    color: #11142d;
+    text-align: center;
+    max-width: 650px;
+    margin: 10px auto 20px;
+    font: 400 16px 'Open Sans', sans-serif;
+  }
+
+  .paginationControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pageButton {
+    background-color: #6c5dd3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .pageButton:disabled {
+    background-color: #ddd; /* Light gray when disabled */
+    cursor: not-allowed;
+  }
+  
+  .pageButton:hover:not(:disabled) {
+    background-color: #6c5dd3; 
+  }
+  
+  .pageNumber {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+
+  .featuredSection
+  .popularBooks,
+  .popularBooks,
+  .nobelSection {
+    margin: 80px 0;
+  }
+
+  .nobelSection {
+    background-color: #f0eeff; 
+    padding: 40px 20px;
+    border-radius: 14px;
+  }
+  
+  .rightAlignedContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+
+  .yearLabel {
+    font-size: 16px;
+    color: var(--DarkPurple, #11142d);
+    margin-top: 8px;
+    margin-right: 15px;
+  }
+
+  .filterDropdown {
+    width: 150px;
+    height: 40px;
+    padding: 10px 15px;
+    border: 1px solid var(--Grey-01, #aaa);
+    border-radius: 14px;
+    background: var(--White, #fff);
+    font-size: 16px;
+    text-align: center;
+    color: var(--DarkPurple, #11142d);
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .nobelGrid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(16px, 1.5vw, 28px);
+    margin-top: 10px;
+    margin-bottom: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  @media (max-width: 1200px) {
+    .booksGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .nobelGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .booksGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nobelGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .sectionTitle {
+      font-size: 40px;
+    }
+  
+    .booksGrid,
+    .nobelGrid {
+      gap: 20px;
+    }
+  }
+
+  

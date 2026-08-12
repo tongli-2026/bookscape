@@ -1,0 +1,99 @@
+.nobelCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 696px;
+  padding: 24px clamp(14px, 1.2vw, 23px);
+  background: #fff;
+  border-radius: 14px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none; /* Ensure no text underline */
+  align-items: center;
+}
+
+.nobelCard:hover {
+  transform: scale(1.05); /* Slightly increase the size on hover */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Add a soft shadow */
+}
+
+.hovered {
+  opacity: 0.9; /* Adjust opacity on hover if needed */
+}
+
+.authorImage {
+  width: 100%;
+  height: clamp(210px, 16.5vw, 342px);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 14px;
+}
+
+.info {
+  display: flex;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 229px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.authorName {
+  font: 700 20px Cairo, sans-serif;
+  color: #11142d;
+}
+
+.year {
+  color: #6c5dd3;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.citation {
+  font: 400 16px 'Open Sans', sans-serif;
+  color: #11142d;
+  margin-top: 16px;
+}
+
+.rating {
+  display: flex;
+  margin-top: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.ratingWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #ff754c;
+  font: 700 18px 'Open Sans', sans-serif;
+}
+
+.averageRating {
+  color: #ff754c;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+.ratingIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.actionIcon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+@media (max-width: 991px) {
+  .nobelCard {
+    padding: 0 20px;
+  }
+}

@@ -1,0 +1,308 @@
+.navigationContainer {
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mainWrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  @media (max-width: 991px) {
+    .mainWrapper {
+      max-width: 100%;
+    }
+  }
+  
+  .headerBackground {
+    background: #fff;
+    box-shadow: 0 29px 39px 0 rgba(0, 0, 0, 0.01);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 10px 0 26px;
+  }
+  
+  @media (max-width: 991px) {
+    .headerBackground {
+      max-width: 100%;
+    }
+  }
+  
+  .headerContent {
+    align-self: center;
+    display: flex;
+    width: 100%;
+    max-width: 1630px;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  @media (max-width: 991px) {
+    .headerContent {
+      max-width: 100%;
+    }
+  }
+  
+  .brandContainer {
+    align-self: stretch;
+    display: flex;
+    align-items: flex-start; /* Replaced start with flex-start */
+  }
+  
+  .logoWrapper {
+    display: flex;
+    margin-top: 13px;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start; /* Replaced start with flex-start */
+    padding: 10px;
+  }
+  
+  .brandLogo {
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+    width: 64px;
+    align-self: stretch;
+    margin: auto 0;
+  }
+  
+  .brandTextContainer {
+    display: flex;
+    flex-direction: column;
+    color: #11142d;
+    flex-grow: 1;
+    flex-basis: 0;
+    width: fit-content;
+  }
+  
+  .brandTitle {
+    align-self: flex-start; /* Replaced start with flex-start */
+    z-index: 10;
+    gap: 10px;
+    white-space: nowrap;
+    padding: 10px;
+    font: 700 32px Cairo, sans-serif;
+  }
+  
+  @media (max-width: 991px) {
+    .brandTitle {
+      white-space: normal; /* Changed from initial to normal for better text wrapping */
+    }
+  }
+  
+  .brandTagline {
+    align-self: stretch;
+    gap: 10px;
+    padding: 10px;
+    font: 300 13px Open Sans, sans-serif;
+  }
+  
+  .searchSection {
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto 0;
+  }
+  
+  @media (max-width: 991px) {
+    .searchSection {
+      max-width: 100%;
+    }
+  }
+  
+  .menuButton {
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+    gap: 19px;
+    color: #6c5dd3;
+    white-space: nowrap;
+    justify-content: flex-start; /* Replaced start with flex-start */
+    padding: 13px 28px;
+    font: 700 18px Cairo, sans-serif;
+    border: 1px solid #e1e1e1;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 991px) {
+    .menuButton {
+      white-space: normal;
+      padding: 0 20px;
+    }
+  }
+  
+  .menuIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 24px;
+    align-self: stretch;
+    margin: auto 0;
+  }
+  
+  .menuText {
+    align-self: stretch;
+    margin: auto 0;
+  }
+  
+  .dropdownIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 16px;
+    align-self: stretch;
+    margin: auto 0;
+  }
+  
+  .searchBar {
+    border-radius: 0 14px 14px 0;
+    border: 1px solid #e1e1e1;
+    display: flex;
+    gap: 40px 100px;
+    flex-grow: 1;
+    flex-basis: auto;
+    padding: 0 29px;
+  }
+  
+  @media (max-width: 991px) {
+    .searchBar {
+      max-width: 100%;
+      padding: 0 20px;
+    }
+  }
+  
+  .searchPlaceholder {
+    color: #aaa;
+    margin: auto 0;
+    font: 400 16px Open Sans, sans-serif;
+  }
+  
+  .searchControls {
+    display: flex;
+    gap: 28px;
+  }
+  
+  .divider {
+    border: 1px solid #e1e1e1;
+    background: #e1e1e1;
+    width: 1px;
+    height: 60px;
+  }
+  
+  .searchIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 24px;
+    margin: auto 0;
+  }
+  
+  .authButtons {
+    align-self: stretch;
+    display: flex;
+    gap: 18px;
+    margin: auto 0;
+    font: 700 18px Cairo, sans-serif;
+  }
+  
+  .loginButton {
+    align-self: stretch;
+    min-height: 60px;
+    gap: 10px;
+    color: #6c5dd3;
+    padding: 13px 29px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 991px) {
+    .loginButton {
+      padding: 0 20px;
+    }
+  }
+  
+  .signupButton {
+    filter: drop-shadow(0 25px 33px rgba(108, 93, 211, 0.25));
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+    gap: 20px;
+    color: #fff;
+    justify-content: flex-start; /* Replaced start with flex-start */
+    padding: 13px 32px;
+    cursor: pointer;
+    background: #6c5dd3;
+    border-radius: 4px;
+  }
+  
+  @media (max-width: 991px) {
+    .signupButton {
+      padding: 0 20px;
+    }
+  }
+  
+  .signupIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 24px;
+    align-self: stretch;
+    margin: auto 0;
+  }
+  
+  .signupText {
+    align-self: stretch;
+    margin: auto 0;
+  }
+  
+  .borderLine {
+    background: #f0f0f0;
+    display: flex;
+    margin-top: 22px;
+    height: 1px;
+  }
+  
+  @media (max-width: 991px) {
+    .borderLine {
+      max-width: 100%;
+    }
+  }
+  
+  .navigationLinks {
+    align-self: flex-start; /* Replaced start with flex-start */
+    display: flex;
+    align-items: center;
+    gap: 40px 73px;
+    color: #11142d;
+    justify-content: flex-start; /* Replaced start with flex-start */
+    flex-wrap: wrap;
+    margin: 19px 0 0 160px;
+    font: 700 24px Cairo, sans-serif;
+  }
+  
+  @media (max-width: 991px) {
+    .navigationLinks {
+      max-width: 100%;
+    }
+  }
+  
+  .navLink {
+    align-self: stretch;
+    flex: 1;
+    gap: 10px;
+    margin: auto 0;
+    cursor: pointer;
+  }
+  
+  .recommendationsLink {
+    min-width: 240px;
+    width: 254px;
+  }
+  

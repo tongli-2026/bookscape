@@ -1,0 +1,106 @@
+.page {
+    background: #fff;
+    min-height: 100vh;
+  }
+  
+  .mainContent {
+    width: 87.5%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  .sectionTitle {
+    color: #11142d;
+    font: 700 50px Cairo, sans-serif;
+    margin-bottom: 32px;
+  }
+  
+  .booksGrid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: clamp(16px, 1.8vw, 38px);
+    margin-top: 40px;
+  }
+
+  .bookLink {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit color from parent */
+  }
+  
+  .bookLink:hover {
+    transform: scale(1.02); /* Optional: Add hover effect */
+  }
+
+  .paginationControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pageButton {
+    background-color: #6c5dd3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .pageButton:disabled {
+    background-color: #ddd; /* Light gray when disabled */
+    cursor: not-allowed;
+  }
+  
+  .pageButton:hover:not(:disabled) {
+    background-color: #6c5dd3; 
+  }
+  
+  .pageNumber {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+
+  .popularBooks,
+  .popularBooks,
+  .popularBooks,
+  .popularBooks,
+  .popularBooks,
+  .popularBooks,
+  .popularBooks,
+  .popularBooks,
+  .popularBooks,
+  .popularBooks {
+    margin: 40px 0;
+  }
+
+  
+  @media (max-width: 1200px) {
+    .booksGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .booksGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 991px) {
+    .sectionTitle {
+      font-size: 40px;
+    }
+  
+    .booksGrid {
+      gap: 20px;
+    }
+  }
+
+  

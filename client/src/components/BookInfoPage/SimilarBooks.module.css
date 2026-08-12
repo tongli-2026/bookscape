@@ -1,0 +1,100 @@
+.similarBooksContainer {
+  display: flex;
+  flex-direction: column;
+  color: var(--DarkPurple, #11142d);
+  font-family: "Open Sans", sans-serif;
+}
+  
+.sectionTitle {
+  color: var(--Grey-01, #aaa);
+  align-self: flex-start;
+  font: 700 30px "Cairo", sans-serif;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--Primary, #6c5dd3);
+  padding-left: 10px;
+  letter-spacing: 0.5px;
+}
+
+.booksList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.bookLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.bookCard {
+  display: flex;
+  flex-direction: row;
+  width: 410px;
+  gap: 15px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.bookCard:hover {
+  transform: scale(1.05);
+}
+
+.bookCover {
+  width: 100px;
+  height: 150px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.bookDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Ensure content is aligned at the top */
+}
+
+.bookTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.bookGenres {
+  font-size: 0.9rem;
+  color: #6c5dd3;
+  text-transform: capitalize;
+}
+
+.ratingWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.bookRating {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.viewMoreButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: var(--Primary, #6c5dd3);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.viewMoreButton:hover {
+  background-color: #4e3bb5;
+}

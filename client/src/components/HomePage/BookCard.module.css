@@ -1,0 +1,79 @@
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* Increased gap between elements */
+  padding: 16px; /* Added padding for better spacing */
+  background: #fff; /* Optional: Add background color for the card */
+  border-radius: 14px;
+  transition: transform 0.2s ease-in-out; /* Smooth scaling effect */
+  text-decoration: none; /* Ensure no text underline */
+}
+
+.bookCard:hover {
+  transform: scale(1.05); /* Enlarge the entire card on hover */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Add a soft shadow */
+}
+
+.bookLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.bookCover {
+  width: clamp(120px, 9vw, 180px);
+  height: clamp(180px, 13.5vw, 270px);
+  object-fit: cover;
+  border-radius: 14px;
+  transition: transform 0.2s ease-in-out; /* Smooth scaling effect for the cover */
+}
+
+.bookCard:hover .bookCover {
+  transform: scale(1.1); /* Enlarge the book cover on hover */
+}
+
+.bookTitle {
+  color: #11142d;
+  font-weight: 700;
+  font-size: 20px;
+  font-family: 'Cairo', sans-serif;
+  text-align: center;
+  margin-top: 12px; /* Add some space between the title and the cover */
+  transition: transform 0.2s ease-in-out; /* Smooth scaling effect for the title */
+  text-decoration: none; /* Ensure no underline on title */
+}
+
+.rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px; /* Reduced space between title and rating section */
+}
+
+.ratingWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #ff754c;
+  font: 700 18px 'Open Sans', sans-serif;
+}
+
+.ratingIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.actionIcon {
+  width: 50px; /* Reduced size of action icon */
+  height: 50px; /* Reduced size of action icon */
+  object-fit: contain;
+}
+
+/* Additional rule to ensure links inside .bookCard do not have text decoration */
+.bookCard a {
+  text-decoration: none; /* Prevent underlining in links inside book cards */
+}

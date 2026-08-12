@@ -1,0 +1,127 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  color: var(--DarkPurple, #11142d);
+  font: 20px/1.2 "Open Sans", sans-serif;
+  max-width: 100%; /* Ensures that the content fits within the available width */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.sectionTitle {
+  color: var(--Grey-01, #aaa);
+  align-self: flex-start;
+  font: 700 30px "Cairo", sans-serif;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--Primary, #6c5dd3);
+  padding-left: 10px;
+  letter-spacing: 0.5px;
+}
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 10px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.value {
+  color: #333;
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.multilineRow {
+  margin-bottom: 20px; /* Adds spacing between multiline sections */
+}
+
+.multilineRow .label {
+  font-size: 1rem;
+  font-weight: bold;
+  display: block; /* Ensure the label is on its own line */
+  margin-bottom: 5px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.multilineValue {
+  color: #333;
+  white-space: pre-wrap; /* Preserve line breaks for multiline content */
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.divider {
+  height: 2px;
+  background-color: #f0f0f0;
+  margin-top: 20px;
+}
+
+.link {
+  color: #6c5dd3;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #4e3bb5;
+}
+
+/* Specific to BookTable */
+.genres {
+  font-style: italic; /* Style genres differently for emphasis */
+}
+
+.authorsWrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Create 3 equal columns */
+  gap: 15px; /* Space between items */
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.authorItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  padding: 8px 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.authorItem:hover {
+  background-color: #ddd;
+}
+
+.viewMoreButton {
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #6c5dd3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.viewMoreButton:hover {
+  background-color: #584bc2;
+}

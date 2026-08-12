@@ -1,0 +1,35 @@
+server/node_modules/
+client/node_modules/
+server/.env
+server/config.json
+
+# Dependencies
+node_modules/
+
+# Environment and secrets
+.env
+*.env
+secrets/
+
+# Build and coverage output
+client/build/
+server/coverage/
+coverage/
+
+# Large local datasets
+cleaned_datasets/
+final datasets/
+
+# System files
+.DS_Store
+**/.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Office temporary files
+~$*
+
+# Project milestone artifacts
+milestones/

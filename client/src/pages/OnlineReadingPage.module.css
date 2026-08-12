@@ -1,0 +1,102 @@
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px;
+    background-color: #ffffff;
+    color: #333333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .darkMode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .controls {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .toggleButton,
+  .fontButton {
+    padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #6c5dd3;
+    color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .toggleButton:hover,
+  .fontButton:hover {
+    background-color: #584bc2;
+    transform: translateY(-2px);
+  }
+  
+  .textContent {
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  
+  .paragraph {
+    margin-bottom: 16px;
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .paginationButton {
+    padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #6c5dd3;
+    color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .paginationButton:hover {
+    background-color: #584bc2;
+    transform: translateY(-2px);
+  }
+
+  .pageInput {
+    padding: 8px;
+    margin-right: 10px;
+    width: 110px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .pageInput:focus {
+    outline: none;
+    border-color: #4a90e2; /* Light blue border when focused */
+  }
+  
+  .pageInput::placeholder {
+    color: #aaa;
+  }
+    
+  
+  .error {
+    color: red;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+  }
+  

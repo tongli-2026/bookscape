@@ -1,0 +1,162 @@
+.infoCard {
+    border-radius: 14px;
+    border: 1px solid var(--Grey-03, #f0f0f0);
+    background: var(--White, #fff);
+    align-self: center;
+    margin-top: 17px;
+    width: 1680px;
+    max-width: 100%;
+    padding: 22px 80px 22px 23px;
+  }
+
+  .infoContent {
+    gap: 20px;
+    display: flex;
+  }
+
+  .coverImageWrapper {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: 17%;
+    margin-left: 0;
+  }
+
+  .coverImage {
+    aspect-ratio: 2 / 3;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+    max-width: 239px;
+    max-height: 358px;
+    flex-grow: 1;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: 83%;
+    margin-left: 20px;
+  }
+
+  .info {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+    flex-direction: column;
+    font-family: Cairo, sans-serif;
+    color: var(--DarkPurple, #11142d);
+    font-weight: 700;
+  }
+
+  .titleRatingContainer {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px 100px;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 0px; /* Reduced space between title and rating section */
+  }
+  
+  .ratingWrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #ff754c;
+    font: 700 18px 'Open Sans', sans-serif;
+  }
+  
+  .ratingIcon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .bookDescription {
+    margin-top: 20px;
+    font: 400 14px/24px Open Sans, -apple-system, Roboto, Helvetica, sans-serif;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1.6;
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+  }
+
+  
+
+  .actionContainer {
+    align-self: flex-start;
+    display: flex;
+    margin-top: 50px;
+    gap: 50px;
+    font-size: 18px;
+    color: var(--White, #fff);
+  }
+
+  .readButton {
+    border-radius: 14px;
+    background-color: rgba(108, 93, 211, 1); 
+    color: white;
+    fill: var(--Primary, #6c5dd3);
+    padding: 13px 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .actionIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 60px;
+    border-radius: 0;
+  }
+
+  @media (max-width: 768px) {
+    .coverImageWrapper {
+      width: 100%; /* Makes the wrapper full-width on smaller screens */
+      margin: 0 auto; /* Centers the wrapper */
+    }
+  
+    .coverImage {
+      max-width: 100%; /* Prevents oversized images */
+      border-radius: 10px; /* Slightly smaller border-radius for compact displays */
+    }
+  
+    .infoContent {
+      flex-direction: column; /* Stack content vertically on small screens */
+      gap: 10px; /* Reduce spacing */
+    }
+  
+    .details {
+      width: 100%; /* Expand details to full width */
+      margin-left: 0; /* Remove extra spacing */
+    }
+  
+    .titleRatingContainer {
+      flex-direction: column; /* Stack title and rating */
+      gap: 10px; /* Reduce gap */
+    }
+  
+    .actionContainer {
+      margin-top: 30px; /* Reduce margin for compact spacing */
+      gap: 20px; /* Adjust spacing for buttons and icons */
+    }
+  }
