@@ -5,8 +5,11 @@ server {
     root /var/www/bookscape/client/build;
     index index.html;
 
-    location /api/ {
-        proxy_pass http://127.0.0.1:8081/;
+    # Backend API routes used by the React app. Keep these before the React
+    # fallback so detail-page API calls such as /books/:book_id do not get
+    # swallowed by index.html.
+    location ~ ^/(api|books|ebooks|authors|recommend_books|search_books|search_authors|display_top_review|display_top_rated_books|get_similar_books|get_book_reviews|get_similar_ebooks|get_ebook_reviews|get_similar_authors|author_books|login|signup|add_to_gallery|remove_from_gallery|gallery|nobel_authors)(/|$) {
+        proxy_pass http://127.0.0.1:8081;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -14,6 +17,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    # React Router fallback.
     location / {
         try_files $uri /index.html;
     }
