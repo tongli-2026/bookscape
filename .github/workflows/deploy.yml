@@ -1,0 +1,60 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+    branches:
+      - main
+
+concurrency:
+  group: bookscape-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - name: Update repository on EC2
+        run: |
+          set -euo pipefail
+          cd /var/www/bookscape
+          git fetch origin main
+          git reset --hard origin/main
+
+      - name: Install server dependencies
+        run: |
+          set -euo pipefail
+          cd /var/www/bookscape/server
+          npm ci
+
+      - name: Install client dependencies
+        run: |
+          set -euo pipefail
+          cd /var/www/bookscape/client
+          npm ci
+
+      - name: Build client
+        run: |
+          set -euo pipefail
+          cd /var/www/bookscape/client
+          npm run build
+        env:
+          CI: false
+          REACT_APP_API_BASE_URL: http://34.215.235.79
+
+      - name: Restart backend
+        run: |
+          set -euo pipefail
+          pm2 restart bookscape-api --update-env
+          pm2 save
+
+      - name: Reload nginx
+        run: |
+          set -euo pipefail
+          sudo systemctl restart nginx
