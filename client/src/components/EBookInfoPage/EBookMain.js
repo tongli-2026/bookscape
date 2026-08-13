@@ -66,7 +66,7 @@ const EBookMain = ({
               {/* Online Reading Button */}
               <Button
                 variant="contained"
-                href={`/ebooks/${bookId}/full_text`}
+                href={`/read/${bookId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{

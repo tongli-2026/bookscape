@@ -50,7 +50,7 @@ export default function Header({ onSearch }) {
   return (
     <header style={styles.header}>
       <div style={styles.logo}>
-        <a href="http://localhost:3000/">
+        <a href="/">
         <img style={styles.logoImage} src={BookscapeLogo} alt="bookscape"/>
         </a>
         <h1 style={styles.logoText}>Bookscape</h1>

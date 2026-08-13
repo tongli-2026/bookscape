@@ -12,11 +12,11 @@ const InfoCard = ({ type, data }) => {
   const getDetailsUrl = () => {
     switch (type) {
       case 'ebook':
-        return `/ebooks/${id}`;  // Navigate to the ebook detail page
+        return `/ebook/${id}`;  // Navigate to the ebook detail page
       case 'book':
-        return `/books/${id}`;    // Navigate to the book detail page
+        return `/book/${id}`;    // Navigate to the book detail page
       case 'author':
-        return `/authors/${id}`;  // Navigate to the author detail page
+        return `/author/${id}`;  // Navigate to the author detail page
       default:
         return '/';
     }

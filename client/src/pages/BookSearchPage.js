@@ -128,9 +128,9 @@ export default function BookSearchPage() {
   // Navigate to BookInfo Page
   const handleBookClick = (bookId, media) => {
     if (media === "Ebook") {
-      window.open(`/ebooks/${bookId}`, "_blank");
+      window.open(`/ebook/${bookId}`, "_blank");
     } else {
-      window.open(`/books/${bookId}`, "_blank");
+      window.open(`/book/${bookId}`, "_blank");
     }
   };
 

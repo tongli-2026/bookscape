@@ -94,7 +94,7 @@ export const TopReview = ({ search_string }) => {
     if (media === "Ebook") {
       window.open(`/ebook/${bookId}`, "_blank");
     } else {
-      window.open(`/books/${bookId}`, "_blank");
+      window.open(`/book/${bookId}`, "_blank");
     }
   };
 

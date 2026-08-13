@@ -17,7 +17,7 @@ const AuthorBooks = ({ books }) => {
 
   // Navigate to BookInfo Page
   const handleBookClick = (bookId) => {
-    window.open(`/books/${bookId}`, "_blank"); 
+    window.open(`/book/${bookId}`, "_blank"); 
   };
 
   return (

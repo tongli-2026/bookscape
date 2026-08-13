@@ -21,7 +21,7 @@ const SimilarEBooks = ({ books }) => {
       <div className={styles.booksList}>
         {booksToShow.map((book) => (
           <a
-            href={`/ebooks/${book.book_id}`}
+            href={`/ebook/${book.book_id}`}
             target="_blank"
             rel="noopener noreferrer"
             key={book.book_id}

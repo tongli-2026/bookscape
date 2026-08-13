@@ -103,7 +103,7 @@ export default function AuthorSearchPage() {
   const currentAuthors = authors.slice(indexOfFirstAuthor, indexOfLastAuthor);
 
   const handleAuthorClick = (authorId) => {
-    window.open(`/authors/${authorId}`, "_blank");
+    window.open(`/author/${authorId}`, "_blank");
   };
 
   return (

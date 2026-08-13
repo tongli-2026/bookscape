@@ -39,10 +39,10 @@ export default function App() {
           <Route path="/search_books" element={<BookSearchPage />} />
           <Route path="/recommend_books" element={<BookRecommendPage />} />
           <Route path="/search_authors" element={<AuthorSearchPage />} />
-          <Route path="/books/:book_id" element={<BookInfoPage />} />
-          <Route path="/ebooks/:book_id" element={<EBookInfoPage />} />
-          <Route path="/ebooks/:book_id/full_text" element={<OnlineReadingPage />} />
-          <Route path="/authors/:author_id" element={<AuthorInfoPage />} />
+          <Route path="/book/:book_id" element={<BookInfoPage />} />
+          <Route path="/ebook/:book_id" element={<EBookInfoPage />} />
+          <Route path="/read/:book_id" element={<OnlineReadingPage />} />
+          <Route path="/author/:author_id" element={<AuthorInfoPage />} />
           <Route path="/gallery/:user_id" element ={<UserGalleryPage/>}/>
         </Routes>
       </BrowserRouter>

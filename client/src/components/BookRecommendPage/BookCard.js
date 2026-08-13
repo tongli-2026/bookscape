@@ -10,7 +10,7 @@ export default function BookCard({ bookId, imageUrl, title, rating }) {
     <article className={styles.bookCard}>
       {/* Use an <a> tag to open the book detail page in a new tab */}
       <a
-        href={`/books/${bookId}`} // Link to the detailed book page
+        href={`/book/${bookId}`} // Link to the detailed book page
         target="_blank" // Open link in a new tab or window
         rel="noopener noreferrer" // Security best practice for external links
         className={styles.bookLink}

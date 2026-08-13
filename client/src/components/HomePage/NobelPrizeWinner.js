@@ -10,7 +10,7 @@ const NobelPrizeWinner = ({ authorId, author, year, citation, rating, image }) =
 
   return (
     <a
-      href={`/authors/${authorId}`} // Link to the author's individual page
+      href={`/author/${authorId}`} // Link to the author's individual page
       target="_blank" // Open link in a new tab or window
       rel="noopener noreferrer" // Security for external links
       className={`${styles.nobelCard} ${isHovered ? styles.hovered : ""}`} // Apply hovered class when hovered

@@ -21,7 +21,7 @@ const SimilarAuthors = ({ authors }) => {
       <div className={styles.authorsList}>
         {authorsToShow.map((author) => (
           <a
-            href={`/authors/${author.author_id}`}
+            href={`/author/${author.author_id}`}
             target="_blank"
             rel="noopener noreferrer"
             key={author.author_id}

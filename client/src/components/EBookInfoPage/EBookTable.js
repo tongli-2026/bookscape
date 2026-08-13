@@ -34,7 +34,7 @@ const EBookTable = ({ book }) => {
               {authorsToDisplay.map(([authorId, authorName, authorRole]) => (
                 <div key={authorId} className={styles.authorItem}>
                   <a
-                    href={`/authors/${authorId}`}
+                    href={`/author/${authorId}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: "inherit" }}
