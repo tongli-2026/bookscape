@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  server:
+    name: Server tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+        env:
+          RDS_HOST: localhost
+          RDS_PORT: 5432
+          RDS_USER: ci_user
+          RDS_PASSWORD: ci_password
+          RDS_DB: ci_db
+          SERVER_HOST: localhost
+          SERVER_PORT: 8081
+          GOOGLE_CLIENT_ID: unused-google-client-id
+          GOOGLE_CLIENT_SECRET: unused-google-client-secret
+          GOOGLE_CALLBACK_URL: http://localhost:8081/api/google/callback
+          FACEBOOK_CLIENT_ID: unused-facebook-client-id
+          FACEBOOK_CLIENT_SECRET: unused-facebook-client-secret
+          FACEBOOK_CALLBACK_URL: http://localhost:8081/api/facebook/callback
+
+  client:
+    name: Client build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build client
+        run: npm run build
+        env:
+          CI: false
+          REACT_APP_API_BASE_URL: http://localhost:8081
