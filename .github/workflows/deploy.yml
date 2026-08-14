@@ -43,6 +43,7 @@ jobs:
         run: |
           set -euo pipefail
           cd /var/www/bookscape/client
+          rm -f .env.production
           npm run build
         env:
           CI: false
