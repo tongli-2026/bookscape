@@ -2,6 +2,41 @@
 
 Bookscape is a literary discovery and reading platform for exploring books, ebooks, authors, reviews, genres, and personalized reading galleries.
 
+## Demo
+
+### Home Page
+![Home Page](docs/images/home-page.png)
+
+### Book Search Page
+![Book Search Page](docs/images/book-search-page.png)
+
+### Book Recommendation Page
+![Book Recommendation Page](docs/images/book-recommendation-page.png)
+
+### Book Detail Page
+![Book Detail Page](docs/images/book-detail-page.png)
+
+### Ebook Detail Page
+![Ebook Detail Page](docs/images/ebook-detail-page.png)
+
+### Online Reading Page
+![Online Reading Page](docs/images/online-reading-page.png)
+
+### Author Search Page
+![Author Search Page](docs/images/author-search-page.png)
+
+### Author Detail Page
+![Author Detail Page](docs/images/author-detail-page.png)
+
+### User Gallery Page
+![User Gallery Page](docs/images/user-gallery-page.png)
+
+### CI Workflow
+![CI Workflow](docs/images/ci-workflow.png)
+
+### CD Workflow
+![CD Workflow](docs/images/cd-workflow.png)
+
 ## Features
 
 - Browse top-rated and popular books from the home page.
