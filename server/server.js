@@ -84,7 +84,7 @@ app.get('/search_authors', routes.search_authors);
 app.get('/authors/:author_id', routes.author_info);
 app.get('/author_books/:author_id', routes.author_books);
 
-// Get similar authors of a given author - Tong Li
+// Get similar authors of a given author
 app.get('/get_similar_authors/:author_id', routes.get_similar_authors);
 
 // User login

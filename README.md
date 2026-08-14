@@ -1,7 +1,5 @@
 # **Bookscape: A Literary Discovery and Reading Platform**  
 
-**CIT550 - Group22: Created by Tong Li, Wanyu Song, Lingyan Xuan, and Yuan Qian.**
-
 ## **Project Overview**  
 Bookscape is a comprehensive literary platform designed to help users discover, explore, and enjoy books and authors. Our platform includes the following features:
 

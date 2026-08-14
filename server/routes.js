@@ -1033,7 +1033,7 @@ const author_books = async function (req, res) {
  return res.status(200).json(result.rows);
 };
 
-// Route 4-3: GET /get_similar_authors/:author_id - Tong Li
+// Route 4-3: GET /get_similar_authors/:author_id
 // implement a route that get the top 5 authors whose representative genre is the same as that of a target author
 // and sorts them by the number of books they have in that genre
 // TEST CASES:
@@ -1179,9 +1179,9 @@ const search_authors = async function (req, res) {
  return res.status(200).json(result.rows);
 };
 
-/*************************************
- * LOGIN PAGE ROUTES - Wanyu Song *
- *************************************/
+/*********************
+ * LOGIN PAGE ROUTES *
+ *********************/
 const bcrypt = require("bcrypt");
 const passportGoogle = require("./googleAuth");
 const passportFacebook = require("./facebookAuth");

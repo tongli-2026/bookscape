@@ -33,3 +33,6 @@ npm-debug.log*
 
 # Project milestone artifacts
 milestones/
+
+# Local data cleaning scripts/notebooks
+data cleanning/
