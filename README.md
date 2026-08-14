@@ -1,69 +1,62 @@
-# **Bookscape: A Literary Discovery and Reading Platform**  
+# Bookscape
 
-## **Project Overview**  
-Bookscape is a comprehensive literary platform designed to help users discover, explore, and enjoy books and authors. Our platform includes the following features:
+Bookscape is a literary discovery and reading platform for exploring books, ebooks, authors, reviews, genres, and personalized reading galleries.
 
-- **Home Page**: A welcoming hub for users.  
-- **Book Search Page**: Allows users to search for books using various filters.  
-- **Book Recommendation Page**: Personalized book recommendations based on user preferences.  
-- **Book/Ebook Information Page**: Detailed information about books and ebooks.  
-- **Book Online Reading Page**: Enables users to read ebooks directly on the platform.  
-- **Author Search Page**: Search for authors and their works.  
-- **Author Information Page**: Explore detailed author profiles.  
-- **User Gallery Page**: A personalized space for users to save and organize their favorite books.
+## Features
 
-The database is hosted on **AWS RDS PostgreSQL** for reliability and scalability. The application can run locally during development or be deployed to **AWS EC2** with Nginx and PM2.
+- Browse top-rated and popular books from the home page.
+- Search books by genre, media type, Nobel Prize filter, and rating/page ranges.
+- View detailed book and ebook pages with authors, genres, ratings, reviews, and similar recommendations.
+- Read available online book full text directly in the app.
+- Search and explore author profiles, author books, similar authors, and Nobel Literature winners.
+- Create an account, log in, and save books to a personal gallery.
 
-## **Architecture**
+## Tech Stack
+
+- Frontend: React, React Router, Material UI, Axios
+- Backend: Node.js, Express, Passport, JWT, bcrypt
+- Database: PostgreSQL on AWS RDS
+- Deployment: AWS EC2, Nginx, PM2
+- Automation: GitHub Actions CI and self-hosted EC2 deployment workflow
+
+## Architecture
 
 ```mermaid
 flowchart LR
-  Browser["User Browser"] --> React["React Frontend"]
-  React --> API["Express.js API"]
+  Browser["User Browser"] --> Nginx["Nginx on EC2"]
+  Nginx --> React["React Static Build"]
+  Nginx --> API["Express API on localhost:8081"]
   API --> RDS["AWS RDS PostgreSQL"]
-
-  subgraph Local["Local Development"]
-    React
-    API
-  end
-
-  subgraph AWS["Cloud Deployment"]
-    EC2["AWS EC2"]
-    Nginx["Nginx"]
-    PM2["PM2"]
-    RDS
-  end
-
-  EC2 --> Nginx
-  Nginx --> React
-  Nginx --> API
-  PM2 --> API
+  PM2["PM2"] --> API
 ```
 
-In production, Nginx serves the React build and proxies `/api/*` requests to the Express backend. The backend connects to PostgreSQL on AWS RDS using environment variables.
+In production, Nginx serves the React build from `client/build` and proxies backend routes to the Express server running on `127.0.0.1:8081`.
 
-## **Project Structure**  
-The repository is organized as follows:
+## Project Structure
 
-- **`client/`**: Contains frontend development files.  
-  - Key folders:
-    - **`src/components/`**: Reusable components for the user interface.  
-    - **`src/pages/`**: Page-specific React components.  
-- **`server/`**: Contains backend development files.
-- **`deploy/`**: Contains sample EC2 deployment configuration for Nginx and PM2.
-- **`data cleanning/`**: Contains data cleanning files. 
+```text
+bookscape/
+  client/     React frontend
+  server/     Express backend
+  db/         PostgreSQL schema, indexes, verification, and view SQL files
+  deploy/     Example Nginx and PM2 deployment configuration
+  .github/    GitHub Actions CI/CD workflows
+```
 
-## How to Run the Project
+Large datasets, cleaned datasets, local secrets, build outputs, dependencies, and data-cleaning notebooks/scripts are intentionally ignored by Git.
 
-### 0. Configure Server Environment Variables
-Create a local environment file from the example:
+## Local Setup
+
+### 1. Configure Backend Environment
+
+Create a backend environment file:
 
 ```bash
 cd server
 cp .env.example .env
 ```
 
-Fill in the RDS PostgreSQL values:
+Fill in your PostgreSQL and server values:
 
 ```bash
 RDS_HOST=your-rds-endpoint.amazonaws.com
@@ -75,31 +68,41 @@ SERVER_HOST=localhost
 SERVER_PORT=8081
 ```
 
-### 1. Start the Server
-Navigate to the `server` folder and run the following commands:
+Google OAuth values are optional for local development unless you are testing Google login.
+
+### 2. Start the Backend
+
 ```bash
 cd server
 npm install
 npm start
 ```
 
-### 2. Start the Client
-Navigate to the `client` folder and run the following commands:
+The API runs at:
+
+```text
+http://localhost:8081
+```
+
+### 3. Start the Frontend
+
+Open a second terminal:
+
 ```bash
 cd client
 npm install
 npm start
 ```
 
-### 3. Access the Application
-Once both the server and client are running, open your browser and navigate to:
-```bash
+The React app runs at:
+
+```text
 http://localhost:3000
 ```
 
 ## Production Build
 
-For EC2 deployment, configure the frontend API base URL:
+For an EC2/Nginx deployment where frontend and backend are served from the same host, use:
 
 ```bash
 cd client
@@ -108,7 +111,7 @@ npm install
 npm run build
 ```
 
-The recommended production value is:
+The production frontend API base URL should usually be:
 
 ```bash
 REACT_APP_API_BASE_URL=/api
@@ -117,18 +120,50 @@ REACT_APP_API_BASE_URL=/api
 ## EC2 Deployment Outline
 
 1. Launch an Ubuntu EC2 instance.
-2. Configure the EC2 security group to allow SSH `22`, HTTP `80`, and optionally HTTPS `443`.
-3. Configure the RDS security group to allow PostgreSQL `5432` only from the EC2 security group.
-4. Install Node.js, npm, Nginx, PM2, and git on EC2.
-5. Copy or clone this project to `/var/www/bookscape`.
-6. Create `/var/www/bookscape/server/.env` with the RDS credentials.
-7. Build the React frontend with `REACT_APP_API_BASE_URL=/api`.
-8. Copy `deploy/nginx-bookscape.conf.example` to the Nginx sites config.
-9. Start the backend with PM2 using `deploy/ecosystem.config.js`.
-
-Example PM2 command:
+2. Allow inbound SSH `22` from your IP and HTTP `80` from the internet.
+3. Allow RDS PostgreSQL `5432` only from the EC2 security group.
+4. Install Node.js, npm, git, Nginx, and PM2 on EC2.
+5. Clone the repo to `/var/www/bookscape`.
+6. Create `/var/www/bookscape/server/.env` with RDS credentials.
+7. Install backend dependencies and start the API with PM2:
 
 ```bash
+cd /var/www/bookscape
+cd server
+npm install
+cd ..
 pm2 start deploy/ecosystem.config.js
 pm2 save
 ```
+
+8. Build the frontend:
+
+```bash
+cd /var/www/bookscape/client
+npm install
+npm run build
+```
+
+9. Configure Nginx using `deploy/nginx-bookscape.conf.example`, then restart Nginx:
+
+```bash
+sudo cp /var/www/bookscape/deploy/nginx-bookscape.conf.example /etc/nginx/sites-available/bookscape
+sudo ln -s /etc/nginx/sites-available/bookscape /etc/nginx/sites-enabled/bookscape
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+## CI/CD
+
+GitHub Actions runs CI on pushes to `main`:
+
+- Install and test the backend.
+- Install and build the frontend.
+
+A separate deployment workflow can run on a self-hosted runner installed on the EC2 instance. After CI succeeds, it updates the EC2 working tree, installs dependencies, rebuilds the frontend, restarts the PM2 backend process, and restarts Nginx.
+
+## Notes
+
+- Do not commit `.env`, database credentials, OAuth secrets, datasets, or generated build folders.
+- Raw EC2 public IP addresses are not accepted as Google OAuth redirect URIs. Use a domain name and HTTPS if Google login is required in production.
