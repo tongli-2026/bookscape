@@ -46,7 +46,7 @@ jobs:
           npm run build
         env:
           CI: false
-          REACT_APP_API_BASE_URL: http://34.215.235.79
+          REACT_APP_API_BASE_URL: /api
 
       - name: Start or restart backend
         run: |
