@@ -1468,7 +1468,62 @@ const getGalleryGenres = async (req, res) => {
   }
 };
 
-//Route 5-10: GET /gallery/added_per_day/:user_id
+//Route 5-10: GET /gallery/recommendations/:user_id
+//Recommend books from the user's favorite gallery genres that are not already saved.
+const getGalleryRecommendations = async (req, res) => {
+  const { user_id } = req.params;
+
+  if (!user_id) {
+    return res.status(400).json({ error: "Missing user ID" });
+  }
+
+  try {
+    const query = `
+      WITH user_genres AS (
+        SELECT b.genre, COUNT(*) AS genre_count
+        FROM galleries g
+        JOIN all_books_views_top_genre b ON g.book_id = b.book_id
+        WHERE g.user_id = $1
+        GROUP BY b.genre
+      ), ranked_books AS (
+        SELECT
+          b.book_id,
+          b.average_rating,
+          b.rating_count,
+          b.genre,
+          b.title,
+          b.author_name,
+          b.has_nobel_prize,
+          b.book_type,
+          b.image_url,
+          ROW_NUMBER() OVER (
+            PARTITION BY b.genre
+            ORDER BY ug.genre_count DESC, b.average_rating DESC, b.rating_count DESC
+          ) AS genre_rank
+        FROM all_books_views_top_genre b
+        JOIN user_genres ug ON b.genre = ug.genre
+        WHERE NOT EXISTS (
+          SELECT 1
+          FROM galleries g
+          WHERE g.user_id = $1 AND g.book_id = b.book_id
+        )
+      )
+      SELECT book_id, average_rating, rating_count, genre, title, author_name,
+             has_nobel_prize, book_type, image_url
+      FROM ranked_books
+      WHERE genre_rank <= 3
+      ORDER BY average_rating DESC, rating_count DESC
+      LIMIT 10;
+    `;
+    const { rows } = await connection.query(query, [user_id]);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching gallery recommendations:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+//Route 5-11: GET /gallery/added_per_day/:user_id
 //Return the count of book that one specific user added per day
 //Test case: http://localhost:8081/gallery/added_per_day/2
 const getGalleryAddedPerDay = async (req, res) => {
@@ -1567,6 +1622,7 @@ module.exports = {
   addBookToGallery,
   getGallery,
   getGalleryGenres,
+  getGalleryRecommendations,
   getGalleryAddedPerDay,
   removeBookFromGallery,
 };

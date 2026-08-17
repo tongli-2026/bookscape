@@ -109,7 +109,7 @@ const styles = {
   },
 };
 
-export default function GalleryBook({ book, onBookRemoved }) {
+export default function GalleryBook({ book, onBookRemoved, showRemoveButton = true }) {
   const [isHovered, setIsHovered] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -133,16 +133,18 @@ export default function GalleryBook({ book, onBookRemoved }) {
       onClick={() => handleBookClick(book.book_id, book.book_type)}
     >
       {/*added remove from gallery button*/}
-      <div
-        style={styles.removeButtonContainer}
-        onClick={(event) => event.stopPropagation()}
-      >
-        <RemoveFromGalleryButton
-          bookId={book.book_id}
-          userId={user?.id || null}
-          onBookRemoved={onBookRemoved}
-        />
-      </div>
+      {showRemoveButton && (
+        <div
+          style={styles.removeButtonContainer}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <RemoveFromGalleryButton
+            bookId={book.book_id}
+            userId={user?.id || null}
+            onBookRemoved={onBookRemoved}
+          />
+        </div>
+      )}
 
       {/*bookcard container for gallery books*/}
       <div style={styles.bookCoverContainer}>

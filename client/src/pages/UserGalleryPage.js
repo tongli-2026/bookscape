@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Typography, Pagination, Tabs, Tab } from "@mui/material";
+import { Box, Button, Typography, Tabs, Tab } from "@mui/material";
 import GalleryBook from "../components/UserGalleryPage/GalleryBook";
 import { Pie, Line } from "react-chartjs-2";
 import {
@@ -59,19 +59,6 @@ const styles = {
     marginBottom: "22px",
     textAlign: "center",
   },
-  horizontalBooks: {
-    display: "grid",
-    gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
-    gap: "18px",
-    padding: "8px 0",
-    width: "100%",
-    boxSizing: "border-box",
-  },
-  pagination: {
-    marginTop: "20px",
-    display: "flex",
-    justifyContent: "center",
-  },
   chartContainer: {
     display: "flex",
     justifyContent: "space-around",
@@ -79,24 +66,73 @@ const styles = {
     height: "60%",
     gap: "20px",
   },
+  controls: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "16px",
+    marginBottom: "18px",
+  },
+  selectedGenre: {
+    color: "#6c5dd3",
+    fontWeight: 700,
+    textTransform: "capitalize",
+  },
+  section: {
+    marginBottom: "34px",
+  },
+  sectionHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    marginBottom: "14px",
+    textAlign: "left",
+  },
+  sectionTitle: {
+    fontSize: "1.35rem",
+    fontWeight: 700,
+    color: "#11142d",
+    textTransform: "capitalize",
+  },
+  sectionCount: {
+    color: "#6e7191",
+    fontSize: "0.95rem",
+  },
+  booksGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+    gap: "18px",
+    padding: "8px 0",
+    width: "100%",
+    boxSizing: "border-box",
+  },
 };
+
+const genreLabel = (genre) => genre || "unknown";
+
+const groupBooksByGenre = (books) =>
+  books.reduce((groups, book) => {
+    const genre = genreLabel(book.genre);
+    if (!groups[genre]) {
+      groups[genre] = [];
+    }
+    groups[genre].push(book);
+    return groups;
+  }, {});
 
 const UserGalleryPage = () => {
   const { user_id } = useParams();
   const [books, setBooks] = useState([]);
   const [genres, setGenres] = useState([]);
   const [addedPerDay, setAddedPerDay] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [recommendations, setRecommendations] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
-
-  const itemsPerPage = 5;
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const response = await fetch(
-          apiUrl(`/gallery/${user_id}`)
-        );
+        const response = await fetch(apiUrl(`/gallery/${user_id}`));
         if (response.ok) {
           const data = await response.json();
           setBooks(data);
@@ -114,9 +150,7 @@ const UserGalleryPage = () => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await fetch(
-          apiUrl(`/gallery/genres/${user_id}`)
-        );
+        const response = await fetch(apiUrl(`/gallery/genres/${user_id}`));
         if (response.ok) {
           const data = await response.json();
           setGenres(data);
@@ -134,12 +168,9 @@ const UserGalleryPage = () => {
   useEffect(() => {
     const fetchAddedPerDay = async () => {
       try {
-        const response = await fetch(
-          apiUrl(`/gallery/added_per_day/${user_id}`)
-        );
+        const response = await fetch(apiUrl(`/gallery/added_per_day/${user_id}`));
         if (response.ok) {
           const data = await response.json();
-          console.log(data.added_date);
           setAddedPerDay(data);
         } else {
           console.error("Failed to fetch books added per day.");
@@ -152,9 +183,23 @@ const UserGalleryPage = () => {
     fetchAddedPerDay();
   }, [user_id]);
 
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const response = await fetch(apiUrl(`/gallery/recommendations/${user_id}`));
+        if (response.ok) {
+          const data = await response.json();
+          setRecommendations(data);
+        } else {
+          console.error("Failed to fetch gallery recommendations.");
+        }
+      } catch (error) {
+        console.error("Error fetching gallery recommendations:", error);
+      }
+    };
+
+    fetchRecommendations();
+  }, [user_id]);
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -166,8 +211,27 @@ const UserGalleryPage = () => {
     );
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const selectedBooks = books.slice(startIndex, startIndex + itemsPerPage);
+  const filteredBooks = useMemo(() => {
+    if (!selectedGenre) {
+      return books;
+    }
+    return books.filter((book) => genreLabel(book.genre) === selectedGenre);
+  }, [books, selectedGenre]);
+
+  const groupedBooks = useMemo(() => groupBooksByGenre(filteredBooks), [filteredBooks]);
+
+  const sortedGenreNames = useMemo(() => {
+    const genreOrder = genres.map((genre) => genre.genre);
+    return Object.keys(groupedBooks).sort((a, b) => {
+      const orderA = genreOrder.indexOf(a);
+      const orderB = genreOrder.indexOf(b);
+      if (orderA !== -1 || orderB !== -1) {
+        return (orderA === -1 ? Number.MAX_SAFE_INTEGER : orderA) -
+          (orderB === -1 ? Number.MAX_SAFE_INTEGER : orderB);
+      }
+      return a.localeCompare(b);
+    });
+  }, [genres, groupedBooks]);
 
   const pieData = {
     labels: genres?.map((genre) => genre.genre) || [],
@@ -180,6 +244,11 @@ const UserGalleryPage = () => {
           "rgba(94, 64, 190, 0.8)",
           "rgba(61, 39, 133, 0.8)",
           "rgba(33, 19, 77, 0.8)",
+          "rgba(255, 117, 76, 0.8)",
+          "rgba(46, 196, 182, 0.8)",
+          "rgba(255, 202, 58, 0.8)",
+          "rgba(25, 130, 196, 0.8)",
+          "rgba(138, 201, 38, 0.8)",
         ],
         borderColor: "white",
         borderWidth: 3,
@@ -199,6 +268,14 @@ const UserGalleryPage = () => {
         align: "center",
         font: { size: 18 },
       },
+    },
+    onClick: (event, elements) => {
+      if (!elements.length) {
+        return;
+      }
+      const genre = pieData.labels[elements[0].index];
+      setSelectedGenre(genre);
+      setSelectedTab(1);
     },
     maintainAspectRatio: false,
   };
@@ -228,7 +305,6 @@ const UserGalleryPage = () => {
       },
     },
     scales: {
-      
       y: { grid: { color: "rgba(200, 200, 200, 0.2)" } },
     },
     maintainAspectRatio: false,
@@ -236,7 +312,6 @@ const UserGalleryPage = () => {
 
   return (
     <Box style={styles.container}>
-      {/* Sidebar with vertical tabs for navigation */}
       <Box style={styles.sidebar}>
         <Tabs
           orientation="vertical"
@@ -251,7 +326,6 @@ const UserGalleryPage = () => {
       <Box style={styles.content}>
         {selectedTab === 0 && (
           <>
-            {/* Dashboard tab displaying pie and line charts */}
             <Typography variant="h4" style={styles.header}>
               Dashboard
             </Typography>
@@ -267,44 +341,64 @@ const UserGalleryPage = () => {
         )}
         {selectedTab === 1 && (
           <>
-            {/* My Books tab */}
             <Typography variant="h2" style={styles.header}>
               My Books
             </Typography>
-            {books.length === 0 ? (
-              <Typography>No books in your gallery yet!</Typography>
-            ) : (
-              <>
-                <Box style={styles.horizontalBooks}>
-                  {selectedBooks.map((book) => (
+            <Box style={styles.controls}>
+              <Typography>
+                Showing <span style={styles.selectedGenre}>{selectedGenre || "all genres"}</span>
+              </Typography>
+              {selectedGenre && (
+                <Button
+                  variant="outlined"
+                  onClick={() => setSelectedGenre(null)}
+                  sx={{ borderColor: "#6c5dd3", color: "#6c5dd3" }}
+                >
+                  All Genres
+                </Button>
+              )}
+            </Box>
+            {recommendations.length > 0 && !selectedGenre && (
+              <Box style={styles.section}>
+                <Box style={styles.sectionHeader}>
+                  <Typography style={styles.sectionTitle}>Recommended For You</Typography>
+                  <Typography style={styles.sectionCount}>{recommendations.length} picks</Typography>
+                </Box>
+                <Box style={styles.booksGrid}>
+                  {recommendations.slice(0, 5).map((book) => (
                     <GalleryBook
-                      key={book.book_id}
+                      key={`recommended-${book.book_id}`}
                       book={book}
-                      onBookRemoved={handleBookRemoved} // Remove book callback
+                      showRemoveButton={false}
                     />
                   ))}
                 </Box>
-                {/* Pagination for the book list */}
-                <Pagination
-                  count={Math.ceil(books.length / itemsPerPage)}
-                  page={currentPage}
-                  onChange={handlePageChange}
-                  sx={{
-                    marginTop: "20px",
-                    display: "flex",
-                    justifyContent: "center",
-                    "& .MuiPaginationItem-root.Mui-selected": {
-                      backgroundColor: "#6c5dd3",
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "#6c5dd3",
-                      },
-                    },
-                  }}
-                  color="primary"
-                  size="large"
-                />
-              </>
+              </Box>
+            )}
+            {books.length === 0 ? (
+              <Typography>No books in your gallery yet!</Typography>
+            ) : sortedGenreNames.length === 0 ? (
+              <Typography>No books found for this genre.</Typography>
+            ) : (
+              sortedGenreNames.map((genre) => (
+                <Box key={genre} style={styles.section}>
+                  <Box style={styles.sectionHeader}>
+                    <Typography style={styles.sectionTitle}>{genre}</Typography>
+                    <Typography style={styles.sectionCount}>
+                      {groupedBooks[genre].length} books
+                    </Typography>
+                  </Box>
+                  <Box style={styles.booksGrid}>
+                    {groupedBooks[genre].map((book) => (
+                      <GalleryBook
+                        key={book.book_id}
+                        book={book}
+                        onBookRemoved={handleBookRemoved}
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              ))
             )}
           </>
         )}
@@ -312,6 +406,5 @@ const UserGalleryPage = () => {
     </Box>
   );
 };
-
 
 export default UserGalleryPage;

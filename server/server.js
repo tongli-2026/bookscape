@@ -101,9 +101,10 @@ app.get('/api/facebook', routes.facebookLogin);
 // User Gallery Page
 app.post("/add_to_gallery/:user_id", routes.addBookToGallery); 
 app.delete("/remove_from_gallery/:user_id",routes.removeBookFromGallery);
-app.get("/gallery/:user_id", routes.getGallery);
 app.get("/gallery/genres/:user_id", routes.getGalleryGenres);
+app.get("/gallery/recommendations/:user_id", routes.getGalleryRecommendations);
 app.get("/gallery/added_per_day/:user_id", routes.getGalleryAddedPerDay);
+app.get("/gallery/:user_id", routes.getGallery);
 
 if (require.main === module) {
   app.listen(config.server_port, () => {
