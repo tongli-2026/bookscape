@@ -109,6 +109,8 @@ const styles = {
 };
 
 const genreLabel = (genre) => genre || "unknown";
+const ALL_BOOKS_PAGE_SIZE = 10;
+const GENRE_PAGE_SIZE = 5;
 
 const groupBooksByGenre = (books) =>
   books.reduce((groups, book) => {
@@ -128,6 +130,8 @@ const UserGalleryPage = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [recommendationPage, setRecommendationPage] = useState(1);
   const [recommendationTotalPages, setRecommendationTotalPages] = useState(0);
+  const [allBooksPage, setAllBooksPage] = useState(1);
+  const [genrePages, setGenrePages] = useState({});
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedGenre, setSelectedGenre] = useState(null);
 
@@ -216,6 +220,13 @@ const UserGalleryPage = () => {
     );
   };
 
+  const paginateBooks = (items, page, pageSize) => {
+    const start = (page - 1) * pageSize;
+    return items.slice(start, start + pageSize);
+  };
+
+  const getTotalPages = (items, pageSize) => Math.max(Math.ceil(items.length / pageSize), 1);
+
   const filteredBooks = useMemo(() => {
     if (!selectedGenre) {
       return books;
@@ -237,6 +248,21 @@ const UserGalleryPage = () => {
       return a.localeCompare(b);
     });
   }, [genres, groupedBooks]);
+
+  const allBooksTotalPages = getTotalPages(filteredBooks, ALL_BOOKS_PAGE_SIZE);
+  const displayedAllBooks = paginateBooks(filteredBooks, allBooksPage, ALL_BOOKS_PAGE_SIZE);
+
+  const handleGenrePageChange = (genre, page) => {
+    setGenrePages((prevPages) => ({
+      ...prevPages,
+      [genre]: page,
+    }));
+  };
+
+  useEffect(() => {
+    setAllBooksPage(1);
+    setGenrePages({});
+  }, [selectedGenre]);
 
   const pieData = {
     labels: genres?.map((genre) => genre.genre) || [],
@@ -363,6 +389,99 @@ const UserGalleryPage = () => {
                 </Button>
               )}
             </Box>
+            {books.length === 0 ? (
+              <Typography>No books in your gallery yet!</Typography>
+            ) : sortedGenreNames.length === 0 ? (
+              <Typography>No books found for this genre.</Typography>
+            ) : (
+              <>
+                <Box style={styles.section}>
+                  <Box style={styles.sectionHeader}>
+                    <Typography style={styles.sectionTitle}>All Books</Typography>
+                    <Typography style={styles.sectionCount}>{filteredBooks.length} books</Typography>
+                  </Box>
+                  <Box style={styles.booksGrid}>
+                    {displayedAllBooks.map((book) => (
+                      <GalleryBook
+                        key={`all-${book.book_id}`}
+                        book={book}
+                        onBookRemoved={handleBookRemoved}
+                      />
+                    ))}
+                  </Box>
+                  {allBooksTotalPages > 1 && (
+                    <Pagination
+                      count={allBooksTotalPages}
+                      page={allBooksPage}
+                      onChange={(event, value) => setAllBooksPage(value)}
+                      sx={{
+                        marginTop: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                        "& .MuiPaginationItem-root.Mui-selected": {
+                          backgroundColor: "#6c5dd3",
+                          color: "white",
+                          "&:hover": {
+                            backgroundColor: "#6c5dd3",
+                          },
+                        },
+                      }}
+                      color="primary"
+                      size="large"
+                    />
+                  )}
+                </Box>
+
+                {sortedGenreNames.map((genre) => {
+                  const genreBooks = groupedBooks[genre];
+                  const genrePage = genrePages[genre] || 1;
+                  const genreTotalPages = getTotalPages(genreBooks, GENRE_PAGE_SIZE);
+                  const displayedGenreBooks = paginateBooks(genreBooks, genrePage, GENRE_PAGE_SIZE);
+
+                  return (
+                    <Box key={genre} style={styles.section}>
+                      <Box style={styles.sectionHeader}>
+                        <Typography style={styles.sectionTitle}>{genre}</Typography>
+                        <Typography style={styles.sectionCount}>
+                          {genreBooks.length} books
+                        </Typography>
+                      </Box>
+                      <Box style={styles.booksGrid}>
+                        {displayedGenreBooks.map((book) => (
+                          <GalleryBook
+                            key={`${genre}-${book.book_id}`}
+                            book={book}
+                            onBookRemoved={handleBookRemoved}
+                          />
+                        ))}
+                      </Box>
+                      {genreTotalPages > 1 && (
+                        <Pagination
+                          count={genreTotalPages}
+                          page={genrePage}
+                          onChange={(event, value) => handleGenrePageChange(genre, value)}
+                          sx={{
+                            marginTop: "20px",
+                            display: "flex",
+                            justifyContent: "center",
+                            "& .MuiPaginationItem-root.Mui-selected": {
+                              backgroundColor: "#6c5dd3",
+                              color: "white",
+                              "&:hover": {
+                                backgroundColor: "#6c5dd3",
+                              },
+                            },
+                          }}
+                          color="primary"
+                          size="large"
+                        />
+                      )}
+                    </Box>
+                  );
+                })}
+              </>
+            )}
+
             {recommendations.length > 0 && !selectedGenre && (
               <Box style={styles.section}>
                 <Box style={styles.sectionHeader}>
@@ -400,31 +519,6 @@ const UserGalleryPage = () => {
                   />
                 )}
               </Box>
-            )}
-            {books.length === 0 ? (
-              <Typography>No books in your gallery yet!</Typography>
-            ) : sortedGenreNames.length === 0 ? (
-              <Typography>No books found for this genre.</Typography>
-            ) : (
-              sortedGenreNames.map((genre) => (
-                <Box key={genre} style={styles.section}>
-                  <Box style={styles.sectionHeader}>
-                    <Typography style={styles.sectionTitle}>{genre}</Typography>
-                    <Typography style={styles.sectionCount}>
-                      {groupedBooks[genre].length} books
-                    </Typography>
-                  </Box>
-                  <Box style={styles.booksGrid}>
-                    {groupedBooks[genre].map((book) => (
-                      <GalleryBook
-                        key={book.book_id}
-                        book={book}
-                        onBookRemoved={handleBookRemoved}
-                      />
-                    ))}
-                  </Box>
-                </Box>
-              ))
             )}
           </>
         )}
