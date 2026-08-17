@@ -27,6 +27,18 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
 
+      - name: Ensure swap space
+        run: |
+          set -euo pipefail
+          if ! sudo swapon --show | grep -q '/swapfile'; then
+            if [ ! -f /swapfile ]; then
+              sudo fallocate -l 4G /swapfile
+              sudo chmod 600 /swapfile
+              sudo mkswap /swapfile
+            fi
+            sudo swapon /swapfile
+          fi
+
       - name: Install server dependencies
         run: |
           set -euo pipefail
@@ -47,6 +59,8 @@ jobs:
           npm run build
         env:
           CI: false
+          GENERATE_SOURCEMAP: false
+          NODE_OPTIONS: --max-old-space-size=1024
 
       - name: Start or restart backend
         run: |
