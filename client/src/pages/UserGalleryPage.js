@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Button, Typography, Tabs, Tab } from "@mui/material";
+import { Box, Button, Pagination, Typography, Tabs, Tab } from "@mui/material";
 import GalleryBook from "../components/UserGalleryPage/GalleryBook";
 import { Pie, Line } from "react-chartjs-2";
 import {
@@ -126,6 +126,8 @@ const UserGalleryPage = () => {
   const [genres, setGenres] = useState([]);
   const [addedPerDay, setAddedPerDay] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [recommendationPage, setRecommendationPage] = useState(1);
+  const [recommendationTotalPages, setRecommendationTotalPages] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedGenre, setSelectedGenre] = useState(null);
 
@@ -186,10 +188,13 @@ const UserGalleryPage = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const response = await fetch(apiUrl(`/gallery/recommendations/${user_id}`));
+        const response = await fetch(
+          apiUrl(`/gallery/recommendations/${user_id}?page=${recommendationPage}&page_size=10`)
+        );
         if (response.ok) {
           const data = await response.json();
-          setRecommendations(data);
+          setRecommendations(data.books || []);
+          setRecommendationTotalPages(data.totalPages || 0);
         } else {
           console.error("Failed to fetch gallery recommendations.");
         }
@@ -199,7 +204,7 @@ const UserGalleryPage = () => {
     };
 
     fetchRecommendations();
-  }, [user_id]);
+  }, [user_id, recommendationPage]);
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -365,7 +370,7 @@ const UserGalleryPage = () => {
                   <Typography style={styles.sectionCount}>{recommendations.length} picks</Typography>
                 </Box>
                 <Box style={styles.booksGrid}>
-                  {recommendations.slice(0, 5).map((book) => (
+                  {recommendations.map((book) => (
                     <GalleryBook
                       key={`recommended-${book.book_id}`}
                       book={book}
@@ -373,6 +378,27 @@ const UserGalleryPage = () => {
                     />
                   ))}
                 </Box>
+                {recommendationTotalPages > 1 && (
+                  <Pagination
+                    count={recommendationTotalPages}
+                    page={recommendationPage}
+                    onChange={(event, value) => setRecommendationPage(value)}
+                    sx={{
+                      marginTop: "20px",
+                      display: "flex",
+                      justifyContent: "center",
+                      "& .MuiPaginationItem-root.Mui-selected": {
+                        backgroundColor: "#6c5dd3",
+                        color: "white",
+                        "&:hover": {
+                          backgroundColor: "#6c5dd3",
+                        },
+                      },
+                    }}
+                    color="primary"
+                    size="large"
+                  />
+                )}
               </Box>
             )}
             {books.length === 0 ? (

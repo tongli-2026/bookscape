@@ -1469,9 +1469,14 @@ const getGalleryGenres = async (req, res) => {
 };
 
 //Route 5-10: GET /gallery/recommendations/:user_id
-//Recommend books from the user's favorite gallery genres that are not already saved.
+//Recommend unsaved books using the user's gallery genre mix and similar-book signals.
 const getGalleryRecommendations = async (req, res) => {
   const { user_id } = req.params;
+  const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+  const pageSize = Math.min(
+    Math.max(parseInt(req.query.page_size, 10) || 10, 1),
+    50
+  );
 
   if (!user_id) {
     return res.status(400).json({ error: "Missing user ID" });
@@ -1479,13 +1484,39 @@ const getGalleryRecommendations = async (req, res) => {
 
   try {
     const query = `
-      WITH user_genres AS (
-        SELECT b.genre, COUNT(*) AS genre_count
+      WITH user_books AS (
+        SELECT g.book_id
         FROM galleries g
-        JOIN all_books_views_top_genre b ON g.book_id = b.book_id
         WHERE g.user_id = $1
+      ), user_genres AS (
+        SELECT b.genre, COUNT(*) AS genre_count
+        FROM user_books ub
+        JOIN all_books_views_top_genre b ON ub.book_id = b.book_id
         GROUP BY b.genre
-      ), ranked_books AS (
+      ), genre_quota_seed AS (
+        SELECT
+          genre,
+          genre_count,
+          genre_count::numeric / SUM(genre_count) OVER () AS genre_ratio,
+          (genre_count::numeric / SUM(genre_count) OVER ()) * $3 AS exact_quota
+        FROM user_genres
+      ), genre_quota_base AS (
+        SELECT
+          genre,
+          GREATEST(1, FLOOR(exact_quota)::int) AS base_quota,
+          exact_quota - FLOOR(exact_quota) AS quota_remainder
+        FROM genre_quota_seed
+      ), genre_quotas AS (
+        SELECT
+          genre,
+          base_quota + CASE
+            WHEN ROW_NUMBER() OVER (ORDER BY quota_remainder DESC, genre) <=
+              GREATEST($3 - SUM(base_quota) OVER (), 0)
+            THEN 1
+            ELSE 0
+          END AS quota
+        FROM genre_quota_base
+      ), candidates AS (
         SELECT
           b.book_id,
           b.average_rating,
@@ -1496,27 +1527,76 @@ const getGalleryRecommendations = async (req, res) => {
           b.has_nobel_prize,
           b.book_type,
           b.image_url,
-          ROW_NUMBER() OVER (
-            PARTITION BY b.genre
-            ORDER BY ug.genre_count DESC, b.average_rating DESC, b.rating_count DESC
-          ) AS genre_rank
+          CASE
+            WHEN EXISTS (
+              SELECT 1
+              FROM similar_to s
+              JOIN user_books ub ON s.source_book_id = ub.book_id
+              WHERE s.similar_book_id = b.book_id
+            ) THEN 3.0
+            ELSE 2.0 * COALESCE(b.average_rating::numeric, 0) / 5.0
+          END AS recommendation_score
         FROM all_books_views_top_genre b
-        JOIN user_genres ug ON b.genre = ug.genre
+        JOIN genre_quotas gq ON b.genre = gq.genre
         WHERE NOT EXISTS (
           SELECT 1
-          FROM galleries g
-          WHERE g.user_id = $1 AND g.book_id = b.book_id
+          FROM user_books ub
+          WHERE ub.book_id = b.book_id
         )
+      ), ranked_candidates AS (
+        SELECT
+          candidates.*,
+          gq.quota,
+          ROW_NUMBER() OVER (
+            PARTITION BY candidates.genre
+            ORDER BY recommendation_score DESC, average_rating DESC, rating_count DESC, book_id
+          ) AS genre_rank
+        FROM candidates
+        JOIN genre_quotas gq ON candidates.genre = gq.genre
+      ), candidate_counts AS (
+        SELECT genre, COUNT(*) AS candidate_count
+        FROM candidates
+        GROUP BY genre
+      ), recommendation_meta AS (
+        SELECT
+          COALESCE(SUM(candidate_count), 0)::int AS total_count,
+          COALESCE(MAX(CEIL(candidate_count::numeric / NULLIF(gq.quota, 0))), 0)::int AS total_pages
+        FROM candidate_counts cc
+        JOIN genre_quotas gq ON cc.genre = gq.genre
+      ), paged_recommendations AS (
+        SELECT *
+        FROM ranked_candidates
+        WHERE genre_rank > (($2 - 1) * quota)
+          AND genre_rank <= ($2 * quota)
       )
-      SELECT book_id, average_rating, rating_count, genre, title, author_name,
-             has_nobel_prize, book_type, image_url
-      FROM ranked_books
-      WHERE genre_rank <= 3
-      ORDER BY average_rating DESC, rating_count DESC
-      LIMIT 10;
+      SELECT
+        book_id,
+        average_rating,
+        rating_count,
+        genre,
+        title,
+        author_name,
+        has_nobel_prize,
+        book_type,
+        image_url,
+        recommendation_score,
+        (SELECT total_count FROM recommendation_meta) AS total_count,
+        (SELECT total_pages FROM recommendation_meta) AS total_pages
+      FROM paged_recommendations
+      ORDER BY recommendation_score DESC, average_rating DESC, rating_count DESC, book_id;
     `;
-    const { rows } = await connection.query(query, [user_id]);
-    res.status(200).json(rows);
+    const { rows } = await connection.query(query, [user_id, page, pageSize]);
+    const total = rows.length > 0 ? Number(rows[0].total_count) : 0;
+    const totalPages = rows.length > 0 ? Number(rows[0].total_pages) : 0;
+    const books = rows.map(({ total_count, total_pages, ...book }) => book);
+
+    res.status(200).json({
+      books,
+      page,
+      pageSize,
+      total,
+      totalPages,
+    });
   } catch (error) {
     console.error("Error fetching gallery recommendations:", error);
     res.status(500).json({ error: "Internal server error" });
