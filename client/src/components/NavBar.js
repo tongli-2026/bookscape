@@ -47,6 +47,11 @@ export default function NavigationBar() {
     });
   }
 
+  const currentSearchType = location.pathname.startsWith("/find_authors") ||
+    location.pathname.startsWith("/author/")
+    ? "Authors"
+    : "Books";
+
   // handle search bar logic and navigation
   const handleSearch = (query, type) => {
     const targetPage = type === "Authors" ? "/find_authors" : "/find_books";
@@ -70,7 +75,7 @@ export default function NavigationBar() {
     <nav className={styles.navigationContainer}>
       <div className={styles.mainWrapper}>
         <header className={styles.headerBackground}>
-          <Header onSearch={handleSearch} />
+          <Header onSearch={handleSearch} searchType={currentSearchType} />
           <Tabs
             value={currentTab >= 0 ? currentTab : false}
             onChange={handleTabChange}

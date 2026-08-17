@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, MenuItem, Box } from '@mui/material';
 import SearchIcon from '../helpers/SearchIcon.png';
 
-export default function SearchBar({ onSearch }) {
-  const [searchType, setSearchType] = useState('Books');
+export default function SearchBar({ onSearch, selectedType = 'Books' }) {
+  const [searchType, setSearchType] = useState(selectedType);
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    setSearchType(selectedType);
+  }, [selectedType]);
 
   const handleSearch = () => {
     onSearch(searchQuery, searchType);

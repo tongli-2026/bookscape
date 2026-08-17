@@ -3,7 +3,7 @@ import SearchBar from './SearchBar';
 import LogIn from './Login';
 import BookscapeLogo from '../helpers/BookscapeLogo.png'
 
-export default function Header({ onSearch }) {
+export default function Header({ onSearch, searchType }) {
   const styles = {
     header: {
       display: 'flex',
@@ -56,7 +56,7 @@ export default function Header({ onSearch }) {
         <h1 style={styles.logoText}>Bookscape</h1>
       </div>
       <div style={styles.searchBar}>
-        <SearchBar onSearch={onSearch} />
+        <SearchBar onSearch={onSearch} selectedType={searchType} />
       </div>
       <div style={styles.LogIn}>
         <LogIn />
