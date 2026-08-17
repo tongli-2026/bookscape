@@ -1186,6 +1186,21 @@ const bcrypt = require("bcrypt");
 const passportGoogle = require("./googleAuth");
 const passportFacebook = require("./facebookAuth");
 
+const getFrontendBaseUrl = (req) => {
+  const host = req.get("host") || "";
+
+  if (host.includes("localhost:8081") || host.includes("127.0.0.1:8081")) {
+    return "http://localhost:3000";
+  }
+
+  return "";
+};
+
+const appendQueryParam = (url, key, value) => {
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}${key}=${encodeURIComponent(value)}`;
+};
+
 // Route 5-1: POST /login
 // send user login request by verifying user email and password regarding to the record in users table, if credentials are valid, then send success response with user details and a redirectURL
 // else, send an erro message for the missing or invalid inputs or internal error message.
@@ -1274,13 +1289,15 @@ const googleLogin = (req, res, next) => {
 // if error happened, user redirected to the client with an error message.
 const googleRoutes = (req, res) => {
   const redirectUrl = req.query.redirectUrl || "/";
+  const frontendBaseUrl = getFrontendBaseUrl(req);
+
   passportGoogle.authenticate(
     "google",
     { session: false },
     async (err, user) => {
       if (err || !user) {
         console.error("Google authentication error:", err);
-        return res.redirect(`http://localhost:3000/?error=Google+login+failed`);
+        return res.redirect(`${frontendBaseUrl}/?error=Google+login+failed`);
       }
 
       const { email, name } = user;
@@ -1292,20 +1309,19 @@ const googleRoutes = (req, res) => {
 
         if (result.rows.length === 0) {
           console.error("User not found in database.");
-          return res.redirect(`http://localhost:3000/?error=User+not+found`);
+          return res.redirect(`${frontendBaseUrl}/?error=User+not+found`);
         }
 
         const id = result.rows[0].id;
+        const targetUrl = `${frontendBaseUrl}${redirectUrl}`;
 
         // redirect with id, name, and email
         res.redirect(
-          `http://localhost:3000${redirectUrl}?user=${encodeURIComponent(
-            JSON.stringify({ id, name, email })
-          )}`
+          appendQueryParam(targetUrl, "user", JSON.stringify({ id, name, email }))
         );
       } catch (error) {
         console.error("Database error fetching user ID:", error);
-        res.redirect(`http://localhost:3000/?error=Server+error`);
+        res.redirect(`${frontendBaseUrl}/?error=Server+error`);
       }
     }
   )(req, res);
@@ -1326,15 +1342,15 @@ const facebookLogin = (req, res, next) => {
 // if error happened, user redirected to the client with an error message.
 const facebookRoutes = (req, res) => {
   const redirectUrl = req.query.redirectUrl || "/";
+  const frontendBaseUrl = getFrontendBaseUrl(req);
+
   passportFacebook.authenticate(
     "facebook",
     { session: false },
     async (err, user) => {
       if (err || !user) {
         console.error("Facebook authentication error:", err);
-        return res.redirect(
-          `http://localhost:3000/?error=Facebook+login+failed`
-        );
+        return res.redirect(`${frontendBaseUrl}/?error=Facebook+login+failed`);
       }
 
       const { email, name } = user;
@@ -1346,20 +1362,19 @@ const facebookRoutes = (req, res) => {
 
         if (result.rows.length === 0) {
           console.error("User not found in database.");
-          return res.redirect(`http://localhost:3000/?error=User+not+found`);
+          return res.redirect(`${frontendBaseUrl}/?error=User+not+found`);
         }
 
         const id = result.rows[0].id;
+        const targetUrl = `${frontendBaseUrl}${redirectUrl}`;
 
         // Redirect with id, name, and email
         res.redirect(
-          `http://localhost:3000${redirectUrl}?user=${encodeURIComponent(
-            JSON.stringify({ id, name, email })
-          )}`
+          appendQueryParam(targetUrl, "user", JSON.stringify({ id, name, email }))
         );
       } catch (error) {
         console.error("Database error fetching user ID:", error);
-        res.redirect(`http://localhost:3000/?error=Server+error`);
+        res.redirect(`${frontendBaseUrl}/?error=Server+error`);
       }
     }
   )(req, res);

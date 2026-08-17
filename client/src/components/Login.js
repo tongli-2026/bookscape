@@ -131,7 +131,7 @@ const Login = () => {
         setAlert({ type: "success", message: "Login successful!" });
         setUser(result.user);
         localStorage.setItem("user", JSON.stringify(result.user));
-        window.location.href = result.redirectUrl || redirectUrl;
+        window.location.href = redirectUrl;
       } else {
         setAlert({ type: "error", message: result.message || "Login failed." });
       }
