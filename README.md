@@ -141,16 +141,11 @@ For an EC2/Nginx deployment where frontend and backend are served from the same 
 
 ```bash
 cd client
-cp .env.production.example .env.production
 npm install
 npm run build
 ```
 
-The production frontend API base URL should usually be:
-
-```bash
-REACT_APP_API_BASE_URL=/api
-```
+For EC2/Nginx deployment, no production API base URL is required. The frontend defaults to same-origin API requests in production.
 
 ## EC2 Deployment Outline
 

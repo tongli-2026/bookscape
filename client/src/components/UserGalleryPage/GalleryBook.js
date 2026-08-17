@@ -5,22 +5,23 @@ import RemoveFromGalleryButton from "../RemoveFromGalleryButton";
 const styles = {
   bookCard: {
     position: "relative",
-    borderRadius: "14px",
+    borderRadius: "10px",
     border: "1px solid #f0f0f0",
     background: "#fff",
     display: "flex",
     width: "100%",
-    maxWidth: "300px",
+    minWidth: 0,
+    boxSizing: "border-box",
     flexDirection: "column",
     alignItems: "center",
     color: "#11142d",
     margin: "0 auto",
-    padding: "20px 23px",
+    padding: "16px 14px",
     fontFamily: "Cairo, sans-serif",
     transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
     cursor: "pointer",
     justifyContent: "space-between",
-    height: "500px",
+    height: "430px",
   },
   bookCardHover: {
     transform: "translateY(-4px)",
@@ -28,9 +29,10 @@ const styles = {
   },
   bookCoverContainer: {
     position: "relative",
-    borderRadius: "14px",
-    width: "250px",
-    height: "375px",
+    borderRadius: "10px",
+    width: "100%",
+    maxWidth: "220px",
+    aspectRatio: "2 / 3",
     overflow: "hidden",
   },
   bookCover: {
@@ -39,7 +41,7 @@ const styles = {
     height: "100%",
     width: "100%",
     objectFit: "cover",
-    borderRadius: "14px",
+    borderRadius: "10px",
     transition: "transform 0.3s ease",
   },
   bookCoverHover: {
@@ -59,9 +61,9 @@ const styles = {
   },
   bookTitle: {
     textAlign: "center",
-    fontSize: "14px",
+    fontSize: "13px",
     fontWeight: "700",
-    margin: "18px 0 8px",
+    margin: "14px 0 6px",
     lineHeight: "1.2",
     display: "-webkit-box",
     WebkitLineClamp: "2",
@@ -71,20 +73,20 @@ const styles = {
   bookGenre: {
     color: "#6c5dd3",
     fontFamily: "Open Sans, sans-serif",
-    marginBottom: "5px",
-    fontSize: "14px",
+    marginBottom: "4px",
+    fontSize: "13px",
   },
   authorName: {
     textAlign: "center",
     fontWeight: "300",
-    margin: "12px 0 0",
-    fontSize: "14px",
+    margin: "8px 0 0",
+    fontSize: "13px",
     color: "#4e4b66",
   },
   ratingWrapper: {
     display: "flex",
     alignItems: "center",
-    gap: "8px",
+    gap: "6px",
   },
   ratingContainer: {
     display: "flex",
@@ -97,7 +99,7 @@ const styles = {
   },
   averageRating: {
     color: "#ff754c",
-    fontSize: "14px",
+    fontSize: "13px",
     fontWeight: "bold",
   },
   removeButtonContainer: {
@@ -165,6 +167,7 @@ export default function GalleryBook({ book, onBookRemoved }) {
           value={book.average_rating}
           precision={0.1}
           readOnly
+          size="small"
           sx={{ color: "#FF754C" }}
         />
         <span style={styles.averageRating}>{book.average_rating}</span>
