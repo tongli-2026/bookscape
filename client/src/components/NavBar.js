@@ -6,19 +6,19 @@ import { Tabs, Tab } from "@mui/material";
 
 const defaultLinks = [
   { id: "home", text: "Home", width: "80px", to: "/" },
-  { id: "find-books", text: "Find Books", width: "115px", to: "/search_books" },
+  { id: "find-books", text: "Find Books", width: "115px", to: "/find_books" },
   {
     id: "recommendations",
     text: "Book Recommendations",
     width: "254px",
     className: styles.recommendationsLink,
-    to: "/recommend_books",
+    to: "/book_recommendations",
   },
   {
     id: "find-authors",
     text: "Find Authors",
     width: "133px",
-    to: "/search_authors",
+    to: "/find_authors",
   },
 ];
 
@@ -43,13 +43,13 @@ export default function NavigationBar() {
       id: "gallery",
       text: `${user.name}'s Gallery`,
       width: "150px",
-      to: `/gallery/${user.id}`,
+      to: `/user_gallery/${user.id}`,
     });
   }
 
   // handle search bar logic and navigation
   const handleSearch = (query, type) => {
-    const targetPage = type === "Authors" ? "/search_authors" : "/search_books";
+    const targetPage = type === "Authors" ? "/find_authors" : "/find_books";
     const queryString = `?search_string=${encodeURIComponent(query)}`;
 
     if (location.pathname === targetPage) {

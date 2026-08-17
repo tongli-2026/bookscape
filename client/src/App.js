@@ -36,14 +36,14 @@ export default function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/search_books" element={<BookSearchPage />} />
-          <Route path="/recommend_books" element={<BookRecommendPage />} />
-          <Route path="/search_authors" element={<AuthorSearchPage />} />
+          <Route path="/find_books" element={<BookSearchPage />} />
+          <Route path="/book_recommendations" element={<BookRecommendPage />} />
+          <Route path="/find_authors" element={<AuthorSearchPage />} />
           <Route path="/book/:book_id" element={<BookInfoPage />} />
           <Route path="/ebook/:book_id" element={<EBookInfoPage />} />
           <Route path="/read/:book_id" element={<OnlineReadingPage />} />
           <Route path="/author/:author_id" element={<AuthorInfoPage />} />
-          <Route path="/gallery/:user_id" element ={<UserGalleryPage/>}/>
+          <Route path="/user_gallery/:user_id" element ={<UserGalleryPage/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
