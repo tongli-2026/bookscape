@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, MenuItem, Box } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import SearchIcon from '../helpers/SearchIcon.png';
 
 export default function SearchBar({ onSearch, selectedType = 'Books' }) {
-  const [searchType, setSearchType] = useState(selectedType);
+  const location = useLocation();
+  const routeSearchType = location.pathname.startsWith('/find_authors') ||
+    location.pathname.startsWith('/author/')
+    ? 'Authors'
+    : selectedType;
+  const [searchType, setSearchType] = useState(routeSearchType);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    setSearchType(selectedType);
-  }, [selectedType]);
+    setSearchType(routeSearchType);
+  }, [routeSearchType]);
 
   const handleSearch = () => {
     onSearch(searchQuery, searchType);
