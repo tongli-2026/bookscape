@@ -29,7 +29,8 @@ Bookscape is a literary discovery and reading platform for exploring books, eboo
 ![Author Detail Page](docs/images/author-detail-page.png)
 
 ### User Gallery Page
-![User Gallery Page](docs/images/user-gallery-page.png)
+![User Gallery Page](docs/images/user-gallery-page-1.png)
+![User Gallery Page](docs/images/user-gallery-page-2.png)
 
 ### CI Workflow
 ![CI Workflow](docs/images/ci-workflow.png)
